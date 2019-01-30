@@ -1,5 +1,5 @@
 # slist
-slist is a tool to list your servers in ssh config and ssh into it
+slist is a tool to list your servers in ssh config and ssh into it. This only works on Unix machines.
 
 ## Setting it up
 ```
