@@ -14,3 +14,6 @@ chmod +x slist.sh
 ln -s <path_of_choice>/slist.sh /usr/local/bin/slist
 slist
 ```
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
