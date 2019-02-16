@@ -1,4 +1,6 @@
 # slist
+![](https://img.shields.io/github/release/GovTechSG/slist.svg?style=flat)
+
 slist is a tool to list your servers in ssh config and ssh into it.<br/>
 This only works on Unix machines.<br/>
 slist aims to solve the problem of users having to remember aliases or IP addresses of all their servers.<br/>
