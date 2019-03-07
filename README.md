@@ -11,6 +11,7 @@ slist reads the aliases in the ~/.ssh/config file and list them in the terminal.
 cd <path_of_choice>
 git clone https://github.com/GovTechSG/slist.git
 chmod +x slist.sh
+# Use full path if using zsh
 ln -s <path_of_choice>/slist.sh /usr/local/bin/slist
 slist
 ```
