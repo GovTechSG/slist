@@ -20,6 +20,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Usage
 Usage: slist [-fhl]
+```
 
 -f <keyword>                  Keyword to filter
 
@@ -27,3 +28,4 @@ Usage: slist [-fhl]
 
 -l                            List servers with ip addresses
 -l -f <keyword>               Filter list work <keyword>
+```
