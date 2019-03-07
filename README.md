@@ -22,7 +22,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Usage
 Usage: slist [-fhl]
 ```
-
 -f <keyword>                  Keyword to filter
 -h                            Display help
 -l                            List servers with ip addresses
