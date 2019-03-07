@@ -13,12 +13,10 @@ usage() { echo "Usage: $0 [-p <filer word>]" 1>&2; exit 1; }
 
 help() {
 cat << EOF
-Usage: slist [-fhl]
+Usage: slist [-hl]|[-f <keyword>]
 
--f <keyword                   Keyword to filter
-
+-f <keyword>                  Keyword to filter
 -h                            Display help
-
 -l                            List servers with ip addresses
 -l -f <keyword>               Filter list work <keyword>
 
