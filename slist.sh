@@ -9,15 +9,13 @@
 
 list_path=/tmp/serverslist.lst
 
-#list=`cat ~/.ssh/config | grep "Host " | awk '{print $2}'`
-
 usage() { echo "Usage: $0 [-p <filer word>]" 1>&2; exit 1; }
 
 help() {
 cat << EOF
 Usage: slist [-fhl]
 
--f                            Keyword to filter
+-f <keyword                   Keyword to filter
 
 -h                            Display help
 
@@ -156,23 +154,15 @@ list() {
 }
 
 flist() {
-	colour=34
 	cat ~/.ssh/config | grep Host | while read line; 
 	do
 		if [[ $line == *"Host "* ]]; then	
 			replace_string=$(sed 's/Host/Server:/g' <<< "$line")
-			if [ $colour -eq 34 ]; then
-                        	colour=$((colour + 1))
-                	elif [ $colour -eq 35 ]; then
-                        	colour=$((colour - 1))
-                	fi
 		elif [[ $line == *"HostName "* ]]; then 
 			replace_string=$(sed 's/HostName/IP:/g' <<< "$line")
-		else
-			echo "UFO"
 		fi
 
-                printf -- "\033[${colour}m %s %s \033[0m\n" "$replace_string"
+                echo $replace_string
         done
 	exit;
 }
@@ -200,15 +190,28 @@ do
 done
 
 if [[ $help == "yes" ]]; then
-	help
+    help
 elif [[ $list == "yes" ]] && [[ $filter == "no" ]] && [[ $help == "no" ]]; then
-	clear
-	list
-	exit
+    clear
+    list
+    exit
 elif [[ $filter == "yes" ]] && [[ $list == "no" ]] && [[ $help == "no" ]]; then
-	clear
-	filter
+    clear
+    filter
 elif [[ $filter == "yes" ]] && [[ $list == "yes" ]] && [[ $help == "no" ]]; then
-	clear
-	list | grep -A1 $keywork | grep -v "\-\-"
+    clear
+    colour=34
+    flist | grep -A1 $keywork | grep -v "\-\-" | while read line;
+    do
+                if [[ $line == *"Server"* ]]; then
+                        if [ $colour -eq 34 ]; then
+                                colour=$((colour + 1))
+                        elif [ $colour -eq 35 ]; then
+                                colour=$((colour - 1))
+                        fi
+                fi
+
+                printf -- "\033[${colour}m %s %s \033[0m\n" "$line"
+    done
+      
 fi
