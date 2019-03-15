@@ -26,143 +26,139 @@ exit;
 
 
 main() {
-        list=`cat ~/.ssh/config | grep "Host " | awk '{print $2}'`
-	rm -f $list_path
-	num=1
-	colour=34
-	for line in $list
-	do
-                echo -ne "$num $line \n" >>  $list_path
-		printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
-		num=$(($num + 1))
-        	if [ $colour -eq 34 ]; then
-			colour=$((colour + 1))
-		elif [ $colour -eq 35 ]; then
-			colour=$((colour - 1))
-		fi
-	done
-
-	echo -e "\nServer to connect:"
-	read cs
-
-        if [[ -z $cs ]]; then
-		clear
-                echo "Enter a number"
-                main
+    list=`cat ~/.ssh/config | grep "Host " | awk '{print $2}'`
+    rm -f $list_path
+    num=1
+    colour=34
+    for line in $list
+    do
+        echo -ne "$num $line \n" >>  $list_path
+        printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
+        num=$(($num + 1))
+        if [ $colour -eq 34 ]; then
+            colour=$((colour + 1))
+        elif [ $colour -eq 35 ]; then
+            colour=$((colour - 1))
         fi
+    done
 
-	if [[ $cs == "exit" ]] || [[ $cs == "EXIT" ]]; then
-		exit
-	fi
+    echo -e "\nServer to connect:"
+    read cs
 
-        if [[ $cs == *[a-zA-Z]* ]]; then
-		clear
-                echo "Not a number"
-                main
-        fi
+    if [[ -z $cs ]]; then
+        clear
+        echo "Enter a number"
+        main
+    fi
 
-        num=$(($num - 1))
+    if [[ $cs == "exit" ]] || [[ $cs == "EXIT" ]]; then
+        exit
+    fi
 
-        if [ $cs -gt $num ] || [ $cs -le 0 ]; then
-		clear
-                echo "Number of out of range"
-                main
-        fi
+    if [[ $cs == *[a-zA-Z]* ]]; then
+        clear
+        echo "Not a number"
+        main
+    fi
 
+    num=$(($num - 1))
 
-	host=`grep "^$cs " ${list_path} | awk '{print $2}'`
-	ssh $host
-	exit
+    if [ $cs -gt $num ] || [ $cs -le 0 ]; then
+        clear
+        echo "Number of out of range"
+        main
+    fi
+
+    host=`grep "^$cs " ${list_path} | awk '{print $2}'`
+    ssh $host
+    exit
 }
 
 filter() {
-	list=`cat ~/.ssh/config | grep "Host " | awk '{print $2}'`
-	rm -f $list_path
-	num=1
-        colour=34
+    list=`cat ~/.ssh/config | grep "Host " | awk '{print $2}'`
+    rm -f $list_path
+    num=1
+    colour=34
 
-        for line in $list
-        do
-		if [[ "$line" == *"$keywork"* ]]; then
-                	echo -ne "$num $line \n" >>  $list_path
-			printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
-                	num=$(($num + 1))
+    for line in $list
+    do
+        if [[ "$line" == *"$keywork"* ]]; then
+            echo -ne "$num $line \n" >>  $list_path
+            printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
+            num=$(($num + 1))
 
-                	if [ $colour -eq 34 ]; then
-                        	colour=$((colour + 1))
-                	elif [ $colour -eq 35 ]; then
-                        	colour=$((colour - 1))
-                	fi
-		fi
-        done
-
-        echo -e "\nServer to connect:"
-        read cs
-
-        if [[ -z $cs ]]; then
-                clear
-                echo "Enter a number"
-                filter
+            if [ $colour -eq 34 ]; then
+                colour=$((colour + 1))
+            elif [ $colour -eq 35 ]; then
+                colour=$((colour - 1))
+            fi
         fi
+    done
 
-        if [[ $cs == "exit" ]] || [[ $cs == "EXIT" ]]; then
-                exit
-        fi
+    echo -e "\nServer to connect:"
+    read cs
 
-        if [[ $cs == *[a-zA-Z]* ]]; then
-                clear
-                echo "Not a number"
-                filter
-        fi
+    if [[ -z $cs ]]; then
+        clear
+        echo "Enter a number"
+        filter
+    fi
 
-        num=$(($num - 1))
-
-        if [ $cs -gt $num ] || [ $cs -le 0 ]; then
-                clear
-                echo "Number of out of range"
-                filter
-        fi
-
-
-        host=`grep "^$cs " ${list_path} | awk '{print $2}'`
-        ssh $host
+    if [[ $cs == "exit" ]] || [[ $cs == "EXIT" ]]; then
         exit
+    fi
+
+    if [[ $cs == *[a-zA-Z]* ]]; then
+        clear
+        echo "Not a number"
+        filter
+    fi
+
+    num=$(($num - 1))
+
+    if [ $cs -gt $num ] || [ $cs -le 0 ]; then
+        clear
+        echo "Number of out of range"
+        filter
+    fi
+
+    host=`grep "^$cs " ${list_path} | awk '{print $2}'`
+    ssh $host
+    exit
 }
 
 list() {
-	colour=34
-	cat ~/.ssh/config | grep Host | while read line; 
-	do
-		if [[ $line == *"Host "* ]]; then	
-			replace_string=$(sed 's/Host/Server:/g' <<< "$line")
-			if [ $colour -eq 34 ]; then
-                        	colour=$((colour + 1))
-                	elif [ $colour -eq 35 ]; then
-                        	colour=$((colour - 1))
-                	fi
-		elif [[ $line == *"HostName "* ]]; then 
-			replace_string=$(sed 's/HostName/IP:/g' <<< "$line")
-		else
-			echo "UFO"
-		fi
+    colour=34
+    cat ~/.ssh/config | grep Host | while read line; 
+    do
+        if [[ $line == *"Host "* ]]; then	
+            replace_string=$(sed 's/Host/Server:/g' <<< "$line")
+            if [ $colour -eq 34 ]; then
+                colour=$((colour + 1))
+            elif [ $colour -eq 35 ]; then
+                colour=$((colour - 1))
+            fi
+        elif [[ $line == *"HostName "* ]]; then 
+            replace_string=$(sed 's/HostName/IP:/g' <<< "$line")
+        fi
 
-                printf -- "\033[${colour}m %s %s \033[0m\n" "$replace_string"
-        done
-	exit;
+    printf -- "\033[${colour}m %s %s \033[0m\n" "$replace_string"
+    done
+    exit;
 }
 
 flist() {
-	cat ~/.ssh/config | grep Host | while read line; 
-	do
-		if [[ $line == *"Host "* ]]; then	
-			replace_string=$(sed 's/Host/Server:/g' <<< "$line")
-		elif [[ $line == *"HostName "* ]]; then 
-			replace_string=$(sed 's/HostName/IP:/g' <<< "$line")
-		fi
+    cat ~/.ssh/config | grep Host | while read line; 
+    do
+        if [[ $line == *"Host "* ]]; then	
+            replace_string=$(sed 's/Host/Server:/g' <<< "$line")
+        elif [[ $line == *"HostName "* ]]; then 
+            replace_string=$(sed 's/HostName/IP:/g' <<< "$line")
+        fi
 
-                echo $replace_string
-        done
-	exit;
+        echo $replace_string
+    done
+    exit;
 }
 
 if [ $# -eq 0 ]; then
@@ -201,15 +197,14 @@ elif [[ $filter == "yes" ]] && [[ $list == "yes" ]] && [[ $help == "no" ]]; then
     colour=34
     flist | grep -A1 $keywork | grep -v "\-\-" | while read line;
     do
-                if [[ $line == *"Server"* ]]; then
-                        if [ $colour -eq 34 ]; then
-                                colour=$((colour + 1))
-                        elif [ $colour -eq 35 ]; then
-                                colour=$((colour - 1))
-                        fi
-                fi
+        if [[ $line == *"Server"* ]]; then
+            if [ $colour -eq 34 ]; then
+                colour=$((colour + 1))
+            elif [ $colour -eq 35 ]; then
+                colour=$((colour - 1))
+            fi
+        fi
 
-                printf -- "\033[${colour}m %s %s \033[0m\n" "$line"
-    done
-      
+        printf -- "\033[${colour}m %s %s \033[0m\n" "$line"
+    done    
 fi
