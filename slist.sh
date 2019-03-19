@@ -138,7 +138,7 @@ filter() {
 
 list() {
     colour=34
-    cat ~/.ssh/config | grep Host | while read line; 
+    cat ~/.ssh/config | grep Host | while read line;
     do
         if [[ $line != *"*"* ]]; then 
             if [[ $line == *"Host "* ]]; then	
@@ -153,17 +153,16 @@ list() {
             fi
             printf -- "\033[${colour}m %s %s \033[0m\n" "$replace_string"
         fi
-        #printf -- "\033[${colour}m %s %s \033[0m\n" "$replace_string"
     done
     exit;
 }
 
 flist() {
-    cat ~/.ssh/config | grep Host | while read line; 
+    cat ~/.ssh/config | grep Host | while read line;
     do
-        if [[ $line == *"Host "* ]]; then	
+        if [[ $line == *"Host "* ]]; then
             replace_string=$(sed 's/Host/Server:/g' <<< "$line")
-        elif [[ $line == *"HostName "* ]]; then 
+        elif [[ $line == *"HostName "* ]]; then
             replace_string=$(sed 's/HostName/IP:/g' <<< "$line")
         fi
 
@@ -184,13 +183,21 @@ help=no
 while getopts ':hlf:' c
 do
   case $c in
-    h) help=yes ;;
-    l) list=yes ;;
-    f) filter=yes
-       keywork=$OPTARG ;;
-    *) echo "Invalid parameter!"
-       echo ""
-       help ;;
+    h)
+      help=yes
+      ;;
+    l)
+      list=yes
+      ;;
+    f)
+      filter=yes
+      keywork=$OPTARG
+      ;;
+    *)
+      echo "Invalid parameter!"
+      echo ""
+      help
+      ;;
   esac
 done
 
