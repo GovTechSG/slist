@@ -30,17 +30,22 @@ main() {
     rm -f $list_path
     num=1
     colour=34
+
+    set -f
     for line in $list
     do
-        echo -ne "$num $line \n" >>  $list_path
-        printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
-        num=$(($num + 1))
-        if [ $colour -eq 34 ]; then
-            colour=$((colour + 1))
-        elif [ $colour -eq 35 ]; then
-            colour=$((colour - 1))
+        if [[ $line != "*" ]]; then 
+            echo -ne "$num $line \n" >>  $list_path
+            printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
+            num=$(($num + 1))
+            if [ $colour -eq 34 ]; then
+                colour=$((colour + 1))
+            elif [ $colour -eq 35 ]; then
+                colour=$((colour - 1))
+            fi
         fi
     done
+    set +f
 
     echo -e "\nServer to connect:"
     read cs
@@ -80,20 +85,24 @@ filter() {
     num=1
     colour=34
 
+    set -f
     for line in $list
     do
-        if [[ "$line" == *"$keywork"* ]]; then
-            echo -ne "$num $line \n" >>  $list_path
-            printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
-            num=$(($num + 1))
+        if [[ $line != "*" ]]; then 
+            if [[ "$line" == *"$keywork"* ]]; then
+                echo -ne "$num $line \n" >>  $list_path
+                printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
+                num=$(($num + 1))
 
-            if [ $colour -eq 34 ]; then
-                colour=$((colour + 1))
-            elif [ $colour -eq 35 ]; then
-                colour=$((colour - 1))
+                if [ $colour -eq 34 ]; then
+                    colour=$((colour + 1))
+                elif [ $colour -eq 35 ]; then
+                    colour=$((colour - 1))
+                fi
             fi
         fi
     done
+    set +f
 
     echo -e "\nServer to connect:"
     read cs
@@ -131,18 +140,20 @@ list() {
     colour=34
     cat ~/.ssh/config | grep Host | while read line; 
     do
-        if [[ $line == *"Host "* ]]; then	
-            replace_string=$(sed 's/Host/Server:/g' <<< "$line")
-            if [ $colour -eq 34 ]; then
-                colour=$((colour + 1))
-            elif [ $colour -eq 35 ]; then
-                colour=$((colour - 1))
+        if [[ $line != *"*"* ]]; then 
+            if [[ $line == *"Host "* ]]; then	
+                replace_string=$(sed 's/Host/Server:/g' <<< "$line")
+                if [ $colour -eq 34 ]; then
+                    colour=$((colour + 1))
+                elif [ $colour -eq 35 ]; then
+                    colour=$((colour - 1))
+                fi
+            elif [[ $line == *"HostName "* ]]; then 
+                replace_string=$(sed 's/HostName/IP:/g' <<< "$line")
             fi
-        elif [[ $line == *"HostName "* ]]; then 
-            replace_string=$(sed 's/HostName/IP:/g' <<< "$line")
+            printf -- "\033[${colour}m %s %s \033[0m\n" "$replace_string"
         fi
-
-    printf -- "\033[${colour}m %s %s \033[0m\n" "$replace_string"
+        #printf -- "\033[${colour}m %s %s \033[0m\n" "$replace_string"
     done
     exit;
 }
