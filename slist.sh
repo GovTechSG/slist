@@ -3,8 +3,8 @@
 # Version	Author		Remarks
 # 1.1		Alvin		Make script more robust to wrong entries
 # 1.2		Alvin		Add argument for listing server name with ip addresses
-#				Add exit method by typing "exit" or "EXIT"
-#				Add filtering of listing and main
+#				        Add exit method by typing "exit" or "EXIT"
+#				        Add filtering of listing and main
 ###################################################################################################
 
 list_path=/tmp/serverslist.lst
@@ -26,7 +26,7 @@ exit;
 
 
 main() {
-    list=`cat ~/.ssh/config | grep "Host " | awk '{print $2}'`
+    list=$(< ~/.ssh/config grep "Host " | awk '{print $2}')
     rm -f $list_path
     num=1
     colour=34
@@ -34,10 +34,10 @@ main() {
     set -f
     for line in $list
     do
-        if [[ $line != "*" ]]; then 
+        if [[ $line != "*" ]]; then
             echo -ne "$num $line \n" >>  $list_path
             printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
-            num=$(($num + 1))
+            num=$((num + 1))
             if [ $colour -eq 34 ]; then
                 colour=$((colour + 1))
             elif [ $colour -eq 35 ]; then
@@ -48,7 +48,7 @@ main() {
     set +f
 
     echo -e "\nServer to connect:"
-    read cs
+    read -r cs
 
     if [[ -z $cs ]]; then
         clear
@@ -66,21 +66,21 @@ main() {
         main
     fi
 
-    num=$(($num - 1))
+    num=$((num - 1))
 
-    if [ $cs -gt $num ] || [ $cs -le 0 ]; then
+    if [ "$cs" -gt $num ] || [ "$cs" -le 0 ]; then
         clear
         echo "Number of out of range"
         main
     fi
 
-    host=`grep "^$cs " ${list_path} | awk '{print $2}'`
-    ssh $host
+    host=$(grep "^$cs " ${list_path} | awk '{print $2}')
+    ssh "$host"
     exit
 }
 
 filter() {
-    list=`cat ~/.ssh/config | grep "Host " | awk '{print $2}'`
+    list=$(< ~/.ssh/config grep "Host " | awk '{print $2}')
     rm -f $list_path
     num=1
     colour=34
@@ -88,11 +88,11 @@ filter() {
     set -f
     for line in $list
     do
-        if [[ $line != "*" ]]; then 
-            if [[ "$line" == *"$keywork"* ]]; then
+        if [[ $line != "*" ]]; then
+            if [[ "$line" == *"$keyword"* ]]; then
                 echo -ne "$num $line \n" >>  $list_path
                 printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
-                num=$(($num + 1))
+                num=$((num + 1))
 
                 if [ $colour -eq 34 ]; then
                     colour=$((colour + 1))
@@ -105,7 +105,7 @@ filter() {
     set +f
 
     echo -e "\nServer to connect:"
-    read cs
+    read -r cs
 
     if [[ -z $cs ]]; then
         clear
@@ -123,32 +123,32 @@ filter() {
         filter
     fi
 
-    num=$(($num - 1))
+    num=$((num - 1))
 
-    if [ $cs -gt $num ] || [ $cs -le 0 ]; then
+    if [ "$cs" -gt $num ] || [ "$cs" -le 0 ]; then
         clear
         echo "Number of out of range"
         filter
     fi
 
-    host=`grep "^$cs " ${list_path} | awk '{print $2}'`
-    ssh $host
+    host=$(grep "^$cs " ${list_path} | awk '{print $2}')
+    ssh "$host"
     exit
 }
 
 list() {
     colour=34
-    cat ~/.ssh/config | grep Host | while read line;
+    < ~/.ssh/config grep Host | while read -r line;
     do
-        if [[ $line != *"*"* ]]; then 
-            if [[ $line == *"Host "* ]]; then	
+        if [[ $line != *"*"* ]]; then
+            if [[ $line == *"Host "* ]]; then
                 replace_string=$(sed 's/Host/Server:/g' <<< "$line")
                 if [ $colour -eq 34 ]; then
                     colour=$((colour + 1))
                 elif [ $colour -eq 35 ]; then
                     colour=$((colour - 1))
                 fi
-            elif [[ $line == *"HostName "* ]]; then 
+            elif [[ $line == *"HostName "* ]]; then
                 replace_string=$(sed 's/HostName/IP:/g' <<< "$line")
             fi
             printf -- "\033[${colour}m %s %s \033[0m\n" "$replace_string"
@@ -158,7 +158,7 @@ list() {
 }
 
 flist() {
-    cat ~/.ssh/config | grep Host | while read line;
+    < ~/.ssh/config grep Host | while read -r line;
     do
         if [[ $line == *"Host "* ]]; then
             replace_string=$(sed 's/Host/Server:/g' <<< "$line")
@@ -166,7 +166,7 @@ flist() {
             replace_string=$(sed 's/HostName/IP:/g' <<< "$line")
         fi
 
-        echo $replace_string
+        echo "$replace_string"
     done
     exit;
 }
@@ -191,7 +191,7 @@ do
       ;;
     f)
       filter=yes
-      keywork=$OPTARG
+      keyword=$OPTARG
       ;;
     *)
       echo "Invalid parameter!"
@@ -213,7 +213,7 @@ elif [[ $filter == "yes" ]] && [[ $list == "no" ]] && [[ $help == "no" ]]; then
 elif [[ $filter == "yes" ]] && [[ $list == "yes" ]] && [[ $help == "no" ]]; then
     clear
     colour=34
-    flist | grep -A1 $keywork | grep -v "\-\-" | while read line;
+    flist | grep -A1 "$keyword" | grep -v "\-\-" | while read -r line;
     do
         if [[ $line == *"Server"* ]]; then
             if [ $colour -eq 34 ]; then
@@ -224,5 +224,5 @@ elif [[ $filter == "yes" ]] && [[ $list == "yes" ]] && [[ $help == "no" ]]; then
         fi
 
         printf -- "\033[${colour}m %s %s \033[0m\n" "$line"
-    done    
+    done
 fi
