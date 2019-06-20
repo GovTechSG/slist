@@ -21,7 +21,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 
 ## Screenshots
-![Optional Text](../screenshots/slist.png)
+![Optional Text](../master/screenshots/slist.png)
+![Optional Text](../master/screenshots/filter.png)
 
 ## Usage
 Usage: slist [-fhl]
