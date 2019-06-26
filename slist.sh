@@ -8,6 +8,11 @@
 ###################################################################################################
 
 list_path=/tmp/serverslist.lst
+config_file=~/.ssh/config
+
+# Coloring
+red=$'\e[1;31m'
+end=$'\e[0m'
 
 usage() { echo "Usage: $0 [-p <filer word>]" 1>&2; exit 1; }
 
@@ -26,7 +31,8 @@ exit;
 
 
 main() {
-    list=$(< ~/.ssh/config grep "Host " | awk '{print $2}')
+    check_config_file_exists
+    list=$(< $config_file grep "Host " | awk '{print $2}')
     rm -f $list_path
     num=1
     colour=34
@@ -80,7 +86,7 @@ main() {
 }
 
 filter() {
-    list=$(< ~/.ssh/config grep "Host " | awk '{print $2}')
+    list=$(< $config_file grep "Host " | awk '{print $2}')
     rm -f $list_path
     num=1
     colour=34
@@ -138,7 +144,7 @@ filter() {
 
 list() {
     colour=34
-    < ~/.ssh/config grep Host | while read -r line;
+    < $config_file grep Host | while read -r line;
     do
         if [[ $line != *"*"* ]]; then
             if [[ $line == *"Host "* ]]; then
@@ -158,7 +164,7 @@ list() {
 }
 
 flist() {
-    < ~/.ssh/config grep Host | while read -r line;
+    < $config_file grep Host | while read -r line;
     do
         if [[ $line == *"Host "* ]]; then
             replace_string=$(sed 's/Host/Server:/g' <<< "$line")
@@ -169,6 +175,16 @@ flist() {
         echo "$replace_string"
     done
     exit;
+}
+
+check_config_file_exists(){
+    if [ -f "$config_file" ]; then
+    echo "$config_file exist"
+    else 
+
+    printf "%s\n" "${red} $config_file <-- file does not exist - Please create one. ${end} "
+    exit;
+    fi
 }
 
 if [ $# -eq 0 ]; then
