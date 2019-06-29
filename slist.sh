@@ -249,32 +249,32 @@ do
       case "$OPTARG" in
         add-host)
           add_host=true
-          val="${!OPTIND}"; OPTIND=$(( ${OPTIND} + 1 ))
+          val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
           host=$val
           ;;
         ip-adr)
           ip_adr=true
-          val="${!OPTIND}"; OPTIND=$(( ${OPTIND} + 1 ))
+          val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
           ip="$val"
           ;;
         ssh-user)
           ssh_user=true
-          val="${!OPTIND}"; OPTIND=$(( ${OPTIND} + 1 ))
+          val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
           user="$val"
           ;;
         port)
           add_port=true
-          val="${!OPTIND}"; OPTIND=$(( ${OPTIND} + 1 ))
+          val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
           port="$val"
           ;;
         keypath)
           key_path=true
-          val="${!OPTIND}"; OPTIND=$(( ${OPTIND} + 1 ))
+          val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
           key="$val"
           ;;
         del-host)
           del_host=true
-          val="${!OPTIND}"; OPTIND=$(( ${OPTIND} + 1 ))
+          val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
           host="$val"
           ;;
         *)
