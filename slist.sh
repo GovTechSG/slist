@@ -313,7 +313,7 @@ elif [[ $del_host == "true" ]]; then
     read -r confirm
     if [[ $confirm == "y" ]] || [[ $confirm == "yes" ]]; then
         sed -i.bak "/Host $host/",'/^$/d' config
-        eo="$?""
+        eo="$?"
         if [ $eo -ne 0 ]; then
             echo "Host could not be remove. Please do manual removal from ~/.ssh/config."
             exit 3
