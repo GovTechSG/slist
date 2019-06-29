@@ -215,7 +215,7 @@ check_host_exists(){
   match=$1
   host_check=$(sed '/^Host/!d' $config_file | awk "/$match/ "'{ print $2 }')
   for line in $host_check; do
-      if [[ $line == $match ]]; then
+      if [[ $line == "$match" ]]; then
 
           host_exist=true
           break
@@ -240,7 +240,7 @@ del_host=false
 # Not mandatory fields. Will use default or no value if bolean is false
 ssh_user=false
 port=false
-keypath=false
+key_path=false
 
 while getopts ':hlf:-:' c
 do
@@ -249,32 +249,32 @@ do
       case "$OPTARG" in
         add-host)
           add_host=true
-          val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+          val="${!OPTIND}"; OPTIND=$(( ${OPTIND} + 1 ))
           host=$val
           ;;
         ip-adr)
           ip_adr=true
-          val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+          val="${!OPTIND}"; OPTIND=$(( ${OPTIND} + 1 ))
           ip="$val"
           ;;
         ssh-user)
           ssh_user=true
-          val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+          val="${!OPTIND}"; OPTIND=$(( ${OPTIND} + 1 ))
           user="$val"
           ;;
         port)
           add_port=true
-          val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+          val="${!OPTIND}"; OPTIND=$(( ${OPTIND} + 1 ))
           port="$val"
           ;;
         keypath)
           key_path=true
-          val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+          val="${!OPTIND}"; OPTIND=$(( ${OPTIND} + 1 ))
           key="$val"
           ;;
         del-host)
           del_host=true
-          val="${!OPTIND}"; OPTIND=$(( $OPTIND + 1 ))
+          val="${!OPTIND}"; OPTIND=$(( ${OPTIND} + 1 ))
           host="$val"
           ;;
         *)
@@ -313,7 +313,8 @@ elif [[ $del_host == "true" ]]; then
     read -r confirm
     if [[ $confirm == "y" ]] || [[ $confirm == "yes" ]]; then
         sed -i.bak "/Host $host/",'/^$/d' config
-        if [ $? -ne 0 ]; then
+        eo="$?""
+        if [ $eo -ne 0 ]; then
             echo "Host could not be remove. Please do manual removal from ~/.ssh/config."
             exit 3
         fi
