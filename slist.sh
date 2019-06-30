@@ -192,10 +192,7 @@ flist() {
 
 # Function to check if config file exists
 check_config_file_exists(){
-    if [ -f "$config_file" ]; then
-        echo "$config_file exist"
-    else 
-
+    if [ ! -f "$config_file" ]; then
         printf "%s\n" "${red} $config_file <-- file does not exist - Please create one. ${end} "
         exit;
     fi
@@ -263,7 +260,7 @@ do
           check_arg "$val"
           # Exist program if host is empty
           if [[ $value == "false" ]]; then
-            echo "Host cannot be empty"
+            printf "%s\n" "${red}Host cannot be empty ${end}"
             exit 1
           fi
           host=$val
@@ -338,7 +335,7 @@ done
 if [[ $help == "true" ]]; then
     help
 elif [[ $add_host == "true" ]] && [[ $del_host == "true" ]]; then
-    echo "--add-host and --del-host cannot be use at the same time"
+    printf "%s\n" "${red}--add-host and --del-host cannot be use at the same time ${end}"
     exit 3
 elif [[ $del_host == "true" ]]; then
     check_host_exists "$host"
