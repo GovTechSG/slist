@@ -238,6 +238,8 @@ check_arg(){
 }
 
 # Start of slist
+check_config_file_exists
+
 list=false
 filter=false
 help=false
