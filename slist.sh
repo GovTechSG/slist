@@ -8,7 +8,7 @@
 ###################################################################################################
 
 list_path=/tmp/serverslist.lst
-config_file=~/.ssh/config
+config_file=~/.ssh/config2
 
 # Coloring
 red=$'\e[1;31m'
@@ -229,6 +229,14 @@ if [ $# -eq 0 ]; then
     main
 fi
 
+# Function to check if argument is nil
+check_arg(){
+    val="$1"
+    if [[ -z "$val" ]]; then
+        value=false
+    fi
+}
+
 # Start of slist
 list=false
 filter=false
@@ -250,31 +258,58 @@ do
         add-host)
           add_host=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          check_arg "$val"
+          # Exist program if host is empty
+          if [[ $value == "false" ]]; then
+            echo "Host cannot be empty"
+            exit 1
+          fi
           host=$val
           ;;
         ip-adr)
           ip_adr=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          check_arg "$val"
+          if [[ $value == "false" ]]; then
+            ip_adr=false
+          fi
           ip="$val"
           ;;
         ssh-user)
           ssh_user=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          check_arg "$val"
+          if [[ $value == "false" ]]; then
+            ssh_user=false
+          fi
           user="$val"
           ;;
         port)
           add_port=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          check_arg "$val"
+          if [[ $value == "false" ]]; then
+            add_port=false
+          fi
           port="$val"
           ;;
         keypath)
           key_path=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          check_arg "$val"
+          if [[ $value == "false" ]]; then
+            key_path=false
+          fi
           key="$val"
           ;;
         del-host)
           del_host=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          check_arg "$val"
+          if [[ $value == "false" ]]; then
+            del_host=false
+            echo "Host cannot be empty"
+          fi
           host="$val"
           ;;
         *)
