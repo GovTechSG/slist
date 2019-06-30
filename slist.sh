@@ -8,7 +8,7 @@
 ###################################################################################################
 
 list_path=/tmp/serverslist.lst
-config_file=~/.ssh/config2
+config_file=~/.ssh/config
 
 # Coloring
 red=$'\e[1;31m'
