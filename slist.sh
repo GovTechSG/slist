@@ -41,7 +41,6 @@ exit;
 
 # Default main slist page
 main() {
-    check_config_file_exists
     list=$(< $config_file grep "Host " | awk '{print $2}')
     rm -f $list_path
     num=1
@@ -192,10 +191,7 @@ flist() {
 
 # Function to check if config file exists
 check_config_file_exists(){
-    if [ -f "$config_file" ]; then
-        echo "$config_file exist"
-    else 
-
+    if [ ! -f "$config_file" ]; then
         printf "%s\n" "${red} $config_file <-- file does not exist - Please create one. ${end} "
         exit;
     fi
@@ -223,13 +219,24 @@ check_host_exists(){
   done
 }
 
+# Start of slist
+check_config_file_exists
+
 # Loading main slist page if no argument found
 if [ $# -eq 0 ]; then
     clear
     main
 fi
 
-# Start of slist
+# Function to check if argument is nil
+check_arg(){
+    val="$1"
+    if [[ -z "$val" ]]; then
+        value=false
+    fi
+}
+
+
 list=false
 filter=false
 help=false
@@ -250,31 +257,58 @@ do
         add-host)
           add_host=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          check_arg "$val"
+          # Exist program if host is empty
+          if [[ $value == "false" ]]; then
+            printf "%s\n" "${red}Host cannot be empty ${end}"
+            exit 1
+          fi
           host=$val
           ;;
         ip-adr)
           ip_adr=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          check_arg "$val"
+          if [[ $value == "false" ]]; then
+            ip_adr=false
+          fi
           ip="$val"
           ;;
         ssh-user)
           ssh_user=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          check_arg "$val"
+          if [[ $value == "false" ]]; then
+            ssh_user=false
+          fi
           user="$val"
           ;;
         port)
           add_port=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          check_arg "$val"
+          if [[ $value == "false" ]]; then
+            add_port=false
+          fi
           port="$val"
           ;;
         keypath)
           key_path=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          check_arg "$val"
+          if [[ $value == "false" ]]; then
+            key_path=false
+          fi
           key="$val"
           ;;
         del-host)
           del_host=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          check_arg "$val"
+          if [[ $value == "false" ]]; then
+            del_host=false
+            echo "Host cannot be empty"
+          fi
           host="$val"
           ;;
         *)
@@ -301,7 +335,7 @@ done
 if [[ $help == "true" ]]; then
     help
 elif [[ $add_host == "true" ]] && [[ $del_host == "true" ]]; then
-    echo "--add-host and --del-host cannot be use at the same time"
+    printf "%s\n" "${red}--add-host and --del-host cannot be use at the same time ${end}"
     exit 3
 elif [[ $del_host == "true" ]]; then
     check_host_exists "$host"
