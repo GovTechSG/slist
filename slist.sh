@@ -41,7 +41,6 @@ exit;
 
 # Default main slist page
 main() {
-    check_config_file_exists
     list=$(< $config_file grep "Host " | awk '{print $2}')
     rm -f $list_path
     num=1
@@ -220,6 +219,9 @@ check_host_exists(){
   done
 }
 
+# Start of slist
+check_config_file_exists
+
 # Loading main slist page if no argument found
 if [ $# -eq 0 ]; then
     clear
@@ -234,8 +236,6 @@ check_arg(){
     fi
 }
 
-# Start of slist
-check_config_file_exists
 
 list=false
 filter=false
