@@ -158,15 +158,16 @@ list() {
     < $config_file grep Host | while read -r line;
     do
         if [[ $line != *"*"* ]]; then
-            if [[ $line == *"Host "* ]]; then
-                replace_string=$(sed 's/Host/Server:/g' <<< "$line")
+            line="$(tr '[:upper:]' '[:lower:]' <<< "$line")"
+            if [[ $line == *"host "* ]]; then
+                replace_string=$(sed 's/host/Server:/g' <<< "$line")
                 if [ $colour -eq 34 ]; then
                     colour=$((colour + 1))
                 elif [ $colour -eq 35 ]; then
                     colour=$((colour - 1))
                 fi
-            elif [[ $line == *"HostName "* ]]; then
-                replace_string=$(sed 's/HostName/IP:/g' <<< "$line")
+            elif [[ $line == *"hostname "* ]]; then
+                replace_string=$(sed 's/hostname/IP:/g' <<< "$line")
             fi
             printf -- "\033[${colour}m %s %s \033[0m\n" "$replace_string"
         fi
@@ -178,10 +179,11 @@ list() {
 flist() {
     < $config_file grep Host | while read -r line;
     do
-        if [[ $line == *"Host "* ]]; then
-            replace_string=$(sed 's/Host/Server:/g' <<< "$line")
-        elif [[ $line == *"HostName "* ]]; then
-            replace_string=$(sed 's/HostName/IP:/g' <<< "$line")
+        line="$(tr '[:upper:]' '[:lower:]' <<< "$line")"
+        if [[ $line == *"host "* ]]; then
+            replace_string=$(sed 's/host/Server:/g' <<< "$line")
+        elif [[ $line == *"hostname "* ]]; then
+            replace_string=$(sed 's/hostname/IP:/g' <<< "$line")
         fi
 
         echo "$replace_string"
