@@ -158,7 +158,7 @@ list() {
     < $config_file grep Host | while read -r line;
     do
         if [[ $line != *"*"* ]]; then
-            line="$(tr [A-Z] [a-z] <<< "$line")"
+            line="$(tr '[A-Z]' '[a-z]' <<< "$line")"
             if [[ $line == *"host "* ]]; then
                 replace_string=$(sed 's/host/Server:/g' <<< "$line")
                 if [ $colour -eq 34 ]; then
@@ -179,7 +179,7 @@ list() {
 flist() {
     < $config_file grep Host | while read -r line;
     do
-        line="$(tr [A-Z] [a-z] <<< "$line")"
+        line="$(tr '[A-Z]' '[a-z]' <<< "$line")"
         if [[ $line == *"host "* ]]; then
             replace_string=$(sed 's/host/Server:/g' <<< "$line")
         elif [[ $line == *"hostname "* ]]; then
