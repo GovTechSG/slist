@@ -224,21 +224,6 @@ check_host_exists(){
 # Start of slist
 check_config_file_exists
 
-# Loading main slist page if no argument found
-if [ $# -eq 0 ]; then
-    clear
-    main
-fi
-
-# Function to check if argument is nil
-check_arg(){
-    val="$1"
-    if [[ -z "$val" ]]; then
-        value=false
-    fi
-}
-
-
 list=false
 filter=false
 help=false
@@ -251,16 +236,28 @@ ssh_user=false
 port=false
 key_path=false
 
-while getopts ':hlf:-:' c
+while getopts ':hlef:-:' c
 do
   case $c in
     -)
       case "$OPTARG" in
+        config-file)
+          configfile=true
+          val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          # Exit program if host is empty
+          if [[ $value == "false" ]]; then
+            printf "%s\n" "${red}Host cannot be empty ${end}"
+            exit 1
+          fi
+          config_file=$val
+        #   set --
+        #   echo $#
+          ;;
         add-host)
           add_host=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
           check_arg "$val"
-          # Exist program if host is empty
+          # Exit program if host is empty
           if [[ $value == "false" ]]; then
             printf "%s\n" "${red}Host cannot be empty ${end}"
             exit 1
@@ -326,6 +323,9 @@ do
       filter=true
       keyword=$OPTARG
       ;;
+    e)
+      edit=true
+      ;;
     *)
       echo "Invalid parameter!"
       echo ""
@@ -333,9 +333,25 @@ do
       ;;
   esac
 done
- 
+
+# Loading main slist page if no argument found
+if [ $# -eq 0 ] || [[ $configfile == "true" && $3 == "" ]]; then
+    clear
+    main
+fi
+
+# Function to check if argument is nil
+check_arg(){
+    val="$1"
+    if [[ -z "$val" ]]; then
+        value=false
+    fi
+}
+
 if [[ $help == "true" ]]; then
     help
+elif [[ $edit == "true" ]]; then
+    vi ~/.ssh/config
 elif [[ $add_host == "true" ]] && [[ $del_host == "true" ]]; then
     printf "%s\n" "${red}--add-host and --del-host cannot be use at the same time ${end}"
     exit 3
