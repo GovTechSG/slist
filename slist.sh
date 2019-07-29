@@ -206,7 +206,7 @@ check_config_file_exists(){
 # Function to check if last line of conf is empty
 check_last_line(){
   last_line=$(tail -1 ${config_file})
-  if [ ! -z "$last_line" ]; then
+  if [ -n "$last_line" ]; then
       echo "" >> "$config_file"
   fi
 }
@@ -223,6 +223,14 @@ check_host_exists(){
           break
       fi
   done
+}
+
+# Function to check if argument is nil
+check_arg(){
+    val="$1"
+    if [[ -z "$val" ]]; then
+        value=false
+    fi
 }
 
 # Start of slist
@@ -254,8 +262,6 @@ do
             exit 1
           fi
           config_file=$val
-        #   set --
-        #   echo $#
           ;;
         add-host)
           add_host=true
@@ -343,14 +349,6 @@ if [ $# -eq 0 ] || [[ $configfile == "true" && $3 == "" ]]; then
     clear
     main
 fi
-
-# Function to check if argument is nil
-check_arg(){
-    val="$1"
-    if [[ -z "$val" ]]; then
-        value=false
-    fi
-}
 
 if [[ $help == "true" ]]; then
     help
