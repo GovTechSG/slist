@@ -26,6 +26,10 @@ Usage: slist [-hl]|[-f <keyword>]
 -h                            Display help
 -l                            List servers with ip addresses
 -l -f <keyword>               Filter list work <keyword>
+-e                            Open ~/.ssh/config
+
+Using other conf instead of default ~/.ssh/conf
+Usage: slist --config-file /tmp/config
 
 Adding new host to ssh config
 Usage: slist --add-host <host name> --ip-adr <ip address> --ssh-user <user> --port <port number> --keypath < keyname with path >
