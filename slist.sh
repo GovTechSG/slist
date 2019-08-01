@@ -256,9 +256,10 @@ do
         config-file)
           configfile=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          check_arg "$val"
           # Exit program if host is empty
           if [[ $value == "false" ]]; then
-            printf "%s\n" "${red}Host cannot be empty ${end}"
+            printf "%s\n" "${red}Must specific config file if --config-file is used${end}"
             exit 1
           fi
           config_file=$val
@@ -353,7 +354,7 @@ fi
 if [[ $help == "true" ]]; then
     help
 elif [[ $edit == "true" ]]; then
-    vi ~/.ssh/config
+    vi "$config_file"
 elif [[ $add_host == "true" ]] && [[ $del_host == "true" ]]; then
     printf "%s\n" "${red}--add-host and --del-host cannot be use at the same time ${end}"
     exit 3
