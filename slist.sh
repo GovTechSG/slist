@@ -259,7 +259,7 @@ do
           check_arg "$val"
           # Exit program if host is empty
           if [[ $value == "false" ]]; then
-            printf "%s\n" "${red}Must specific config file if --config-file is used${end}"
+            printf "%s\n" "${red}Config cannot be empty with --config-file${end}"
             exit 1
           fi
           config_file=$val
