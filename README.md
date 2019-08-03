@@ -9,12 +9,37 @@ slist reads the aliases in the ~/.ssh/config file and list them in the terminal.
 ## Setting it up
 
 ```bash
-cd <path_of_choice>
-git clone https://github.com/GovTechSG/slist.git
-chmod +x slist.sh
+$ cd <path_of_choice>
+$ git clone https://github.com/GovTechSG/slist.git
+$ chmod +x slist.sh
+
 # Use full path of slist.sh for symlink to work
-ln -s <path_of_choice>/slist.sh /usr/local/bin/slist
-slist
+$ ln -s <path_of_choice>/slist.sh /usr/local/bin/slist
+$ slist
+```
+
+## SSH Config File Format
+
+```bash
+# If you have a jump host
+Host jumpHost
+  User <your_user>
+  HostName <ip_address>
+  Port 22
+  IdentityFile <path_to_private_key>
+
+Host <your_host>
+  User <your_user>
+  HostName <ip_address>
+  ProxyCommand ssh -A jumpHost nc %h %p   # If you want to use the jumpHost to connect to the host
+  Port 22
+  IdentityFile <path_to_private_key>
+
+Host <your_host2>
+  User <your_user2>
+  HostName <ip_address2>
+  Port 22
+  IdentityFile <path_to_private_key>
 ```
 
 ## License
