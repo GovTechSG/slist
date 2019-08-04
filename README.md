@@ -1,5 +1,5 @@
 # slist
-![version](https://img.shields.io/github/release/GovTechSG/slist.svg?style=flat)
+![version](https://img.shields.io/github/release/GovTechSG/slist.svg?style=flat) [![Build Status](https://travis-ci.org/GovTechSG/slist.svg?branch=master)](https://travis-ci.org/GovTechSG/slist)
 
 slist is a tool to list your servers in ssh config and ssh into it.<br/>
 This only works on Unix machines.<br/>
