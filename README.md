@@ -70,4 +70,5 @@ Usage: slist [-fhl]
 --keypath <keyname_with_path>   Add a new key file to SSH config file. Must be used together with --add-host and --ip-adr options
 --del-host <host_name>          Delete a host from the SSH config file
 --config-file                   To use other config file
+--init <file_path>              To initialize a template SSH config file
 ```

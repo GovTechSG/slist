@@ -264,11 +264,25 @@ create_template() {
   filePath="$1"
 
   cat > "$filePath" << EOF
-  Host <your_host>
-    User <your_user>
-    HostName <ip_address>
-    Port 22
-    IdentityFile <path_to_private_key>
+# If you have a jump host
+Host jumpHost
+  User <your_user>
+  HostName <ip_address>
+  Port 22
+  IdentityFile <path_to_private_key>
+
+Host <your_host>
+  User <your_user>
+  HostName <ip_address>
+  ProxyCommand ssh -A jumpHost nc %h %p   # If you want to use the jumpHost to connect to the host
+  Port 22
+  IdentityFile <path_to_private_key>
+
+Host <your_host2>
+  User <your_user2>
+  HostName <ip_address2>
+  Port 22
+  IdentityFile <path_to_private_key>
 EOF
 
   printf "%s\n" "${green}Template SSH config created at $filePath ${end}"
