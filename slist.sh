@@ -12,6 +12,7 @@ config_file=~/.ssh/config
 
 # Coloring
 red=$'\e[1;31m'
+green=$'\e[0;32m'
 end=$'\e[0m'
 
 # Function for printing usage
@@ -36,8 +37,11 @@ Usage: slist --add-host <host name> --ip-adr <ip address> --ssh-user <user> --po
 
 Only --add-host and --ip-adr are mandatory to have
 
-Delete host from ssh confg
+Delete host from ssh config
 Usage: slist --del-host <host name>
+
+Initialising a template SSH config file
+Usage: slist --init <file path>
 
 EOF
 exit;
@@ -233,6 +237,58 @@ check_arg(){
     fi
 }
 
+init() {
+  filePath="$1"
+
+  if [[ -z "$filePath" ]]; then
+    printf "%s\n" "${red}Please provide a file path after --init option! ${end}"
+    exit 1
+  elif [ -f "$filePath" ]; then
+    read -r -p "$filePath already exists. Do you want to overwrite it? [y/n] " ans
+    ans="$(tr '[:upper:]' '[:lower:]' <<< "$ans")"
+
+    if [[ $ans == "n" || $ans == "no" ]]; then
+      exit 0
+    elif [[ $ans == "y" || $ans == "yes" ]]; then
+      create_template "$filePath"
+    else
+      printf "%s\n" "${red}Invalid option! ${end}"
+      exit 1
+    fi
+  else
+    create_template "$filePath"
+  fi
+}
+
+create_template() {
+  filePath="$1"
+
+  cat > "$filePath" << EOF
+# If you have a jump host
+Host jumpHost
+  User <your_user>
+  HostName <ip_address>
+  Port 22
+  IdentityFile <path_to_private_key>
+
+Host <your_host>
+  User <your_user>
+  HostName <ip_address>
+  ProxyCommand ssh -A jumpHost nc %h %p   # If you want to use the jumpHost to connect to the host
+  Port 22
+  IdentityFile <path_to_private_key>
+
+Host <your_host2>
+  User <your_user2>
+  HostName <ip_address2>
+  Port 22
+  IdentityFile <path_to_private_key>
+EOF
+
+  printf "%s\n" "${green}Template SSH config created at $filePath ${end}"
+  exit 0
+}
+
 # Start of slist
 check_config_file_exists
 
@@ -321,6 +377,10 @@ do
           fi
           host="$val"
           ;;
+        init)
+          filePath="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
+          init "$filePath"
+          ;;
         *)
           echo "Illegal option --$OPTARG" >&2; exit 2 ;;
       esac;;
@@ -373,7 +433,7 @@ elif [[ $del_host == "true" ]]; then
             echo "Host could not be remove. Please do manual removal from ~/.ssh/config."
             exit 3
         fi
-        echo "${host} had been removed" 
+        echo "${host} had been removed"
         exit 0
     fi
 elif [[ $add_host == "true" ]]; then

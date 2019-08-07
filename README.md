@@ -1,5 +1,5 @@
 # slist
-![version](https://img.shields.io/github/release/GovTechSG/slist.svg?style=flat)
+![version](https://img.shields.io/github/release/GovTechSG/slist.svg?style=flat) [![Build Status](https://travis-ci.org/GovTechSG/slist.svg?branch=master)](https://travis-ci.org/GovTechSG/slist)
 
 slist is a tool to list your servers in ssh config and ssh into it.<br/>
 This only works on Unix machines.<br/>
@@ -70,4 +70,5 @@ Usage: slist [-fhl]
 --keypath <keyname_with_path>   Add a new key file to SSH config file. Must be used together with --add-host and --ip-adr options
 --del-host <host_name>          Delete a host from the SSH config file
 --config-file                   To use other config file
+--init <file_path>              To initialize a template SSH config file
 ```
