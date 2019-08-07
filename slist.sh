@@ -1,11 +1,4 @@
 #!/bin/bash
-#
-# Version	Author		Remarks
-# 1.1		Alvin		Make script more robust to wrong entries
-# 1.2		Alvin		Add argument for listing server name with ip addresses
-#				        Add exit method by typing "exit" or "EXIT"
-#				        Add filtering of listing and main
-###################################################################################################
 
 list_path=/tmp/serverslist.lst
 config_file=~/.ssh/config
@@ -237,6 +230,7 @@ check_arg(){
     fi
 }
 
+# Function to initialise a template SSH config file
 init() {
   filePath="$1"
 
@@ -260,6 +254,7 @@ init() {
   fi
 }
 
+# Create a file with the template SSH config including for when a jump host is used
 create_template() {
   filePath="$1"
 
