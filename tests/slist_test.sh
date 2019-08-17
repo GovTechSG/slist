@@ -3,8 +3,7 @@
 
 # Set up test environment before any tests are run
 oneTimeSetUp() {
-  pwd
-  alias slist=../slist.sh
+  alias slist=./slist.sh
 
   # Coloring
   red=$'\e[1;31m'
