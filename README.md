@@ -42,15 +42,6 @@ Host <your_host2>
   IdentityFile <path_to_private_key>
 ```
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
-
-## Screenshots
-
-![Optional Text](../master/screenshots/slist.png)
-![Optional Text](../master/screenshots/filter.png)
-
 ## Usage
 
 Usage: slist [-fhl]
@@ -72,3 +63,33 @@ Usage: slist [-fhl]
 --config-file                   To use other config file
 --init <file_path>              To initialize a template SSH config file
 ```
+
+## Screenshots
+
+![Optional Text](../master/screenshots/slist.png)
+![Optional Text](../master/screenshots/filter.png)
+
+## Developer Guide
+
+### Running Tests
+
+To run tests in tests/slist_test.sh you will need to install [shunit2](https://github.com/kward/shunit2)
+
+```bash
+# To install shunit2 on MacOS
+$ brew install shunit2
+
+# To install shunit2 on Fedora/RHEL/CentOS/EPEL
+yum install shunit2
+
+# To install shunit2 on Ubuntu
+apt-get install shunit2
+```
+
+### Contributing Your Code
+
+If you would like to contribute to this repo, please open an issue, fork the repo, implement your code and tests and create a PR
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
