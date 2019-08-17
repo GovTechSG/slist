@@ -13,8 +13,8 @@ notifications:
   email: false
 
 before_script:
-  - apt-get update
-  - apt-get install shunit2
+  - sudo apt-get update
+  - sudo apt-get install shunit2
 
 script:
   # Fail if any of these files have warnings
