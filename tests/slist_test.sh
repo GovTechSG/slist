@@ -3,7 +3,8 @@
 
 # Set up test environment before any tests are run
 oneTimeSetUp() {
-  alias slist=./slist.sh
+  shopt -s expand_aliases
+  alias slist='$PWD/slist.sh'
 
   # Coloring
   red=$'\e[1;31m'
