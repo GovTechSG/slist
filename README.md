@@ -80,10 +80,13 @@ To run tests in tests/slist_test.sh you will need to install [shunit2](https://g
 $ brew install shunit2
 
 # To install shunit2 on Fedora/RHEL/CentOS/EPEL
-yum install shunit2
+$ yum install shunit2
 
 # To install shunit2 on Ubuntu
-apt-get install shunit2
+$ apt-get install shunit2
+
+# To run tests
+$ ./tests/slist_test.sh
 ```
 
 ### Contributing Your Code
