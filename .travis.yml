@@ -1,3 +1,22 @@
+# Use the latest ubuntu environment (18.04) available on travis
+dist: bionic
+
+language: bash
+
+# Only clone the most recent commit.
+git:
+  quiet: true
+  depth: 1
+
+# Don't email me the results of the test runs.
+notifications:
+  email: false
+
+before_script:
+  - sudo apt-get update
+  - sudo apt-get install shunit2
+
 script:
   # Fail if any of these files have warnings
   - shellcheck ./*.sh
+  - ./tests/slist_test.sh

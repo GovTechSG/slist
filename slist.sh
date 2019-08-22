@@ -238,7 +238,7 @@ init() {
     printf "%s\n" "${red}Please provide a file path after --init option! ${end}"
     exit 1
   elif [ -f "$filePath" ]; then
-    read -r -p "$filePath already exists. Do you want to overwrite it? [y/n] " ans
+    read -r -p "${red}$filePath already exists. Do you want to overwrite it? [y/n] ${end}" ans
     ans="$(tr '[:upper:]' '[:lower:]' <<< "$ans")"
 
     if [[ $ans == "n" || $ans == "no" ]]; then
