@@ -1,3 +1,7 @@
+<div id="logo" align="center">
+    <img src="slist.png" alt="Tanuki" width="150" height="150"/>
+</div>
+
 # slist
 ![version](https://img.shields.io/github/release/GovTechSG/slist.svg?style=flat) [![Build Status](https://travis-ci.org/GovTechSG/slist.svg?branch=master)](https://travis-ci.org/GovTechSG/slist)
 
