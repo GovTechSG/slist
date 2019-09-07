@@ -149,7 +149,7 @@ filter() {
     fi
 
     host=$(grep "^$cs " ${list_path} | awk '{print $2}')
-    ssh "$host"
+    ssh -F "$config_file" "$host"
     exit
 }
 
