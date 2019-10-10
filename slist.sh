@@ -42,115 +42,69 @@ exit;
 
 # Default main slist page
 main() {
-    list=$(< $config_file grep "Host " | awk '{print $2}')
-    rm -f $list_path
-    num=1
-    colour=34
+    display_hosts
+    prompt_connect_server
+    last=$((num - 1))
 
-    set -f
-    for line in $list
-    do
-        if [[ $line != "*" ]]; then
-            echo -ne "$num $line \n" >>  $list_path
-            printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
-            num=$((num + 1))
-            if [ $colour -eq 34 ]; then
-                colour=$((colour + 1))
-            elif [ $colour -eq 35 ]; then
-                colour=$((colour - 1))
-            fi
-        fi
-    done
-    set +f
+    handle_connect_server_input
 
-    echo -e "\nServer to connect:"
-    read -r cs
-
-    if [[ -z $cs ]]; then
-        clear
-        echo "Enter a number"
-        main
-    fi
-
-    if [[ $cs == "exit" ]] || [[ $cs == "EXIT" ]]; then
-        exit
-    fi
-
-    if [[ $cs == *[a-zA-Z]* ]]; then
-        clear
-        echo "Not a number"
-        main
-    fi
-
-    num=$((num - 1))
-
-    if [ "$cs" -gt $num ] || [ "$cs" -le 0 ]; then
-        clear
-        echo "Number of out of range"
-        main
-    fi
-
-    host=$(grep "^$cs " ${list_path} | awk '{print $2}')
-    ssh -F "$config_file" "$host"
+    connect_server
     exit
 }
 
-# Filter hostname page of slist
-filter() {
-    list=$(< $config_file grep "Host " | awk '{print $2}')
-    rm -f $list_path
-    num=1
-    colour=34
+display_hosts() {
+  num=1
+  list=$(< $config_file grep "Host " | awk '{print $2}')
+  rm -f $list_path
+  colour=34
 
-    set -f
-    for line in $list
-    do
-        if [[ $line != "*" ]]; then
-            if [[ "$line" == *"$keyword"* ]]; then
-                echo -ne "$num $line \n" >>  $list_path
-                printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
-                num=$((num + 1))
+  set -f
+  for line in $list
+  do
+    if [[ $line != "*" ]]; then
+      if [[ "$line" == *"$keyword"* ]]; then
+        echo -ne "$num $line \n" >>  $list_path
+        printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
+        num=$((num + 1))
 
-                if [ $colour -eq 34 ]; then
-                    colour=$((colour + 1))
-                elif [ $colour -eq 35 ]; then
-                    colour=$((colour - 1))
-                fi
-            fi
+        if [ $colour -eq 34 ]; then
+          colour=$((colour + 1))
+        elif [ $colour -eq 35 ]; then
+          colour=$((colour - 1))
         fi
-    done
-    set +f
-
-    echo -e "\nServer to connect:"
-    read -r cs
-
-    if [[ -z $cs ]]; then
-        clear
-        echo "Enter a number"
-        filter
+      fi
     fi
+  done
+  set +f
+}
 
+prompt_connect_server() {
+  echo -e "\nServer to connect:"
+}
+
+connect_server() {
+  host=$(grep "^$cs " ${list_path} | awk '{print $2}')
+  printf "%s\n" "${green}Connecting to '$host' ... ${end}"
+  ssh -F "$config_file" "$host"
+}
+
+handle_connect_server_input() {
+  while read -r cs; do
     if [[ $cs == "exit" ]] || [[ $cs == "EXIT" ]]; then
-        exit
+      exit 0
+    elif [[ -z $cs ]] || [[ $cs == *[a-zA-Z]* ]]; then
+      err_msg="${red}Invalid input! Please enter a number ${end}"
+    elif [ "$cs" -gt $last ] || [ "$cs" -le 0 ]; then
+      err_msg="${red}Number is out of range! ${end}"
+    elif [ "$cs" -ge 0 ] || [ "$cs" -le "$last" ]; then
+      break
     fi
 
-    if [[ $cs == *[a-zA-Z]* ]]; then
-        clear
-        echo "Not a number"
-        filter
-    fi
-
-    num=$((num - 1))
-
-    if [ "$cs" -gt $num ] || [ "$cs" -le 0 ]; then
-        clear
-        echo "Number of out of range"
-        filter
-    fi
-
-    host=$(grep "^$cs " ${list_path} | awk '{print $2}')
-    ssh -F "$config_file" "$host"
-    exit
+    clear
+    printf "%s\n" "$err_msg"
+    display_hosts
+    prompt_connect_server
+  done
 }
 
 # Listing ip address for slist
@@ -467,7 +421,7 @@ elif [[ $list == "true" ]] && [[ $filter == "false" ]] && [[ $help == "false" ]]
     exit
 elif [[ $filter == "true" ]] && [[ $list == "false" ]] && [[ $help == "false" ]]; then
     clear
-    filter
+    main
 elif [[ $filter == "true" ]] && [[ $list == "true" ]] && [[ $help == "false" ]]; then
     clear
     colour=34
