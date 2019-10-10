@@ -9,7 +9,7 @@ green=$'\e[0;32m'
 end=$'\e[0m'
 
 # Function for printing usage
-usage() { echo "Usage: $0 [-p <filer word>]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 [-p <filler word>]" 1>&2; exit 1; }
 
 # Function for printing help page
 help() {
@@ -23,7 +23,7 @@ Usage: slist [-hl]|[-f <keyword>]
 -e                            Open ~/.ssh/config
 
 Using other conf instead of default ~/.ssh/conf
-Usage: slist --config-file /tmp/config
+Usage: slist --file /tmp/config
 
 Adding new host to ssh config
 Usage: slist --add-host <host name> --ip-adr <ip address> --ssh-user <user> --port <port number> --keypath < keyname with path >
@@ -258,13 +258,13 @@ do
   case $c in
     -)
       case "$OPTARG" in
-        config-file)
+        file)
           configfile=true
           val="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
           check_arg "$val"
           # Exit program if host is empty
           if [[ $value == "false" ]]; then
-            printf "%s\n" "${red}Config cannot be empty with --config-file${end}"
+            printf "%s\n" "${red}Config cannot be empty with --file${end}"
             exit 1
           fi
           config_file=$val
