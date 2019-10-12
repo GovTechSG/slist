@@ -1,5 +1,5 @@
 #! /bin/bash
-# file: tests/slist_test.sh
+# file: tests/test_init.sh
 
 # Set up test environment before any tests are run
 oneTimeSetUp() {
