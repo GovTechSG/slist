@@ -3,10 +3,20 @@
 list_path=/tmp/serverslist.lst
 config_file=~/.ssh/config
 
-# Coloring
+# Color Code
+black=$'\e[1;30m'
 red=$'\e[1;31m'
 green=$'\e[0;32m'
+yellow=$'\e[0;33m'
+blue=$'\e[0;34m'
+pink=$'\e[0;35m'
+cyan=$'\e[0;36m'
+white=$'\e[0;37m'
 end=$'\e[0m'
+
+# slist color template (Change this to change slist output colors)
+color1="$blue"
+color2="$pink"
 
 # Function for printing usage
 usage() { echo "Usage: $0 [-p <filler word>]" 1>&2; exit 1; }
@@ -56,7 +66,6 @@ display_hosts() {
   num=1
   list=$(< $config_file grep "Host " | awk '{print $2}')
   rm -f $list_path
-  colour=34
 
   set -f
   for line in $list
@@ -64,14 +73,12 @@ display_hosts() {
     if [[ $line != "*" ]]; then
       if [[ "$line" == *"$keyword"* ]]; then
         echo -ne "$num $line \n" >>  $list_path
-        printf -- "\033[${colour}m %s %s \033[0m\n" "$num" "$line"
-        num=$((num + 1))
-
-        if [ $colour -eq 34 ]; then
-          colour=$((colour + 1))
-        elif [ $colour -eq 35 ]; then
-          colour=$((colour - 1))
+        if [ "$((num%2))" -eq 0 ]; then
+          printf -- "${color1} %s %s ${end}\n" "$num" "$line"
+        else
+          printf -- "${color2} %s %s ${end}\n" "$num" "$line"
         fi
+        num=$((num + 1))
       fi
     fi
   done
@@ -109,25 +116,25 @@ handle_connect_server_input() {
 
 # Listing ip address for slist
 list() {
-    colour=34
-    < $config_file grep Host | while read -r line;
-    do
-        if [[ $line != *"*"* ]]; then
-            line="$(tr '[:upper:]' '[:lower:]' <<< "$line")"
-            if [[ $line == *"host "* ]]; then
-                replace_string=$(sed 's/host/Server:/g' <<< "$line")
-                if [ $colour -eq 34 ]; then
-                    colour=$((colour + 1))
-                elif [ $colour -eq 35 ]; then
-                    colour=$((colour - 1))
-                fi
-            elif [[ $line == *"hostname "* ]]; then
-                replace_string=$(sed 's/hostname/IP:/g' <<< "$line")
-            fi
-            printf -- "\033[${colour}m %s %s \033[0m\n" "$replace_string"
-        fi
-    done
-    exit;
+  num=1
+  < $config_file grep Host | while read -r line;
+  do
+    if [[ $line != *"*"* ]]; then
+      line="$(tr '[:upper:]' '[:lower:]' <<< "$line")"
+      if [[ $line == *"host "* ]]; then
+        replace_string=$(sed 's/host/Server:/g' <<< "$line")
+        num=$((num + 1))
+      elif [[ $line == *"hostname "* ]]; then
+          replace_string=$(sed 's/hostname/IP:/g' <<< "$line")
+      fi
+      if [ "$((num%2))" -eq 0 ]; then
+        printf -- "${color1} %s %s ${end}\n" "$replace_string"
+      else
+        printf -- "${color2} %s %s ${end}\n" "$replace_string"
+      fi
+    fi
+  done
+  exit;
 }
 
 # Filtering ip address page of slist
