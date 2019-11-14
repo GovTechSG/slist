@@ -287,7 +287,7 @@ color_match () {
       color="$white"
       ;;
     *)
-      printf "${red}Invalid${end} ${1} for ${2} \n"
+      printf "%s\n" "${red}Invalid${end} ${1} for ${2}"
       printf "%s\n" "Chose only this colors ${black}black${end} ${red}red${end} ${green}green${end} ${yellow}yellow${end} ${blue}blue${end} ${pink}pink${end} ${cyan}cyan${end} ${white}white${end}"
       exit;
   esac
