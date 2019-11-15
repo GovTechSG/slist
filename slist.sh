@@ -43,8 +43,8 @@ Initialising a template SSH config file.
 Usage: slist --init <file path>
 
 To make persistent color change to slist theme. Add below 2 lines to .bashrc or .profile or .bash_profile.
-export color1=cyan
-export color2=yellow
+export color_theme1=cyan
+export cocolor_theme2=yellow
 
 Supported colors:
 ${black}black${end} ${red}red${end} ${green}green${end} ${yellow}yellow${end} ${blue}blue${end} ${pink}pink${end} ${cyan}cyan${end} ${white}white${end}
