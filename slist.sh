@@ -42,7 +42,10 @@ Usage: slist --del-host <host name>
 Initialising a template SSH config file.
 Usage: slist --init <file path>
 
-To make persistent color change to slist theme. Add below 2 lines to .bashrc or .profile or .bash_profile.
+To make persistent color change to slist theme.
+If you are using bash shell, add below 2 lines to .bashrc or .profile or .bash_profile.
+If you are using zsh shell, add below 2 lines to .zshrc
+
 export color_theme1=cyan
 export cocolor_theme2=yellow
 
