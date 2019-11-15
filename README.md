@@ -68,6 +68,11 @@ Usage: slist [-fhl]
 --init <file_path>              To initialize a template SSH config file
 ```
 
+# Changing colours theme for slist
+To make persistent color change to slist theme. Add below 2 lines to .bashrc or .profile or .bash_profile.
+export color_theme1=cyan
+export cocolor_theme2=yellow
+
 ## Screenshots
 
 ![Optional Text](../master/screenshots/slist.png)
