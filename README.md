@@ -69,7 +69,9 @@ Usage: slist [-fhl]
 ```
 
 # Changing colours theme for slist
-To make persistent color change to slist theme. Add below 2 lines to .bashrc or .profile or .bash_profile.
+To make persistent color change to slist theme. <br/>
+If you are using bash shell, add below 2 lines to .bashrc or .profile or .bash_profile. <br/>
+If you are using zsh shell, add below 2 lines to .zshrc. <br/>
 
 export color_theme1=cyan<br/>
 export color_theme2=yellow
