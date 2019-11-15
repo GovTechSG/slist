@@ -47,7 +47,7 @@ If you are using bash shell, add below 2 lines to .bashrc or .profile or .bash_p
 If you are using zsh shell, add below 2 lines to .zshrc
 
 export color_theme1=cyan
-export cocolor_theme2=yellow
+export color_theme2=yellow
 
 Supported colors:
 ${black}black${end} ${red}red${end} ${green}green${end} ${yellow}yellow${end} ${blue}blue${end} ${pink}pink${end} ${cyan}cyan${end} ${white}white${end}
