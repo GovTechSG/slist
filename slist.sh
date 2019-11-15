@@ -14,10 +14,6 @@ cyan=$'\e[0;36m'
 white=$'\e[0;37m'
 end=$'\e[0m'
 
-# slist color template (Change this to change slist output colors)
-color1="$blue"
-color2="$pink"
-
 # Function for printing usage
 usage() { echo "Usage: $0 [-p <filler word>]" 1>&2; exit 1; }
 
@@ -35,16 +31,23 @@ Usage: slist [-hl]|[-f <keyword>]
 Using other conf instead of default ~/.ssh/conf
 Usage: slist --file /tmp/config
 
-Adding new host to ssh config
+Adding new host to ssh config.
 Usage: slist --add-host <host name> --ip-adr <ip address> --ssh-user <user> --port <port number> --keypath < keyname with path >
 
 Only --add-host and --ip-adr are mandatory to have
 
-Delete host from ssh config
+Delete host from ssh config.
 Usage: slist --del-host <host name>
 
-Initialising a template SSH config file
+Initialising a template SSH config file.
 Usage: slist --init <file path>
+
+To make persistent color change to slist theme. Add below 2 lines to .bashrc or .profile or .bash_profile.
+export color_theme1=cyan
+export cocolor_theme2=yellow
+
+Supported colors:
+${black}black${end} ${red}red${end} ${green}green${end} ${yellow}yellow${end} ${blue}blue${end} ${pink}pink${end} ${cyan}cyan${end} ${white}white${end}
 
 EOF
 exit;
@@ -245,8 +248,58 @@ EOF
   exit 0
 }
 
+# Function to check if colors variable are declared.
+check_colors () {
+  if [ -z "$color_theme1" ]; then
+    color_theme1=blue
+  fi
+
+  if [ -z "$color_theme2" ]; then
+    color_theme2=pink
+  fi
+}
+
+# Function to match color with declare variable
+color_match () {
+  case "$1" in
+    black)
+      color="$black"
+      ;;
+    red)
+      color="$red"
+      ;;
+    green)
+      color="$green"
+      ;;
+    yellow)
+      color="$yellow"
+      ;;
+    blue)
+      color="$blue"
+      ;;
+    pink)
+      color="$pink"
+      ;;
+    cyan)
+      color="$cyan"
+      ;;
+    white)
+      color="$white"
+      ;;
+    *)
+      printf "%s\n" "${red}Invalid${end} ${1} for ${2}"
+      printf "%s\n" "Chose only this colors ${black}black${end} ${red}red${end} ${green}green${end} ${yellow}yellow${end} ${blue}blue${end} ${pink}pink${end} ${cyan}cyan${end} ${white}white${end}"
+      exit;
+  esac
+}
+
 # Start of slist
 check_config_file_exists
+check_colors
+color_match "$color_theme1" color_theme1
+color1=$color
+color_match "$color_theme2" color_theme2
+color2=$color
 
 list=false
 filter=false
