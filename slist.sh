@@ -493,11 +493,13 @@ elif [[ $filter == "true" ]] && [[ $list == "true" ]] && [[ $help == "false" ]];
         if [[ $line == *"Server"* ]]; then
             if [ $colour -eq 34 ]; then
                 colour=$((colour + 1))
+                color_code="$color1"
             elif [ $colour -eq 35 ]; then
                 colour=$((colour - 1))
+                color_code="$color2"
             fi
         fi
 
-        printf -- "\033[${colour}m %s %s \033[0m\n" "$line"
+        printf -- "${color_code} %s %s ${end}\n" "$line"
     done
 fi
