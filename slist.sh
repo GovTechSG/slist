@@ -128,10 +128,10 @@ list() {
     if [[ $line != *"*"* ]]; then
       line="$(tr '[:upper:]' '[:lower:]' <<< "$line")"
       if [[ $line == *"host "* ]]; then
-        replace_string=$(sed 's/host/Server:/g' <<< "$line")
+        replace_string=${line//host/Server}
         num=$((num + 1))
       elif [[ $line == *"hostname "* ]]; then
-          replace_string=$(sed 's/hostname/IP:/g' <<< "$line")
+          replace_string=${line//hostname/IP:}
       fi
       if [ "$((num%2))" -eq 0 ]; then
         printf -- "${color1} %s %s ${end}\n" "$replace_string"
@@ -149,9 +149,9 @@ flist() {
     do
         line="$(tr '[:upper:]' '[:lower:]' <<< "$line")"
         if [[ $line == *"host "* ]]; then
-            replace_string=$(sed 's/host/Server:/g' <<< "$line")
+            replace_string=${line//host/Server:}
         elif [[ $line == *"hostname "* ]]; then
-            replace_string=$(sed 's/hostname/IP:/g' <<< "$line")
+            replace_string=${line//hostname/IP:}
         fi
 
         echo "$replace_string"
