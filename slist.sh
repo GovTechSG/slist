@@ -58,14 +58,14 @@ exit;
 
 # Default main slist page
 main() {
-    display_hosts
-    prompt_connect_server
-    last=$((num - 1))
+  display_hosts
+  prompt_connect_server
+  last=$((num - 1))
 
-    handle_connect_server_input
+  handle_connect_server_input
 
-    connect_server
-    exit
+  connect_server
+  exit
 }
 
 display_hosts() {
