@@ -1,7 +1,2 @@
----
-"MD033":
-  "allowed_elements": [
-    "div",
-    "img",
-    "br"
-  ]
+MD033:
+  allowed_elements: ["div", "img", "br"]
