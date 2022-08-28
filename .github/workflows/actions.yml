@@ -32,8 +32,8 @@ jobs:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  test:
-    name: Test shell scripts with shunit2
+  test_init:
+    name: Test slist init option
     runs-on: ubuntu-latest
 
     steps:
@@ -48,7 +48,26 @@ jobs:
           sudo apt-get update
           sudo apt-get install shunit2
 
-      - name: Run Tests
+      - name: Run Test
         run: |
           ./tests/test_init.sh
+
+  test_prompt_connect_server:
+    name: Test slist prompt connect to server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: Install shunit2
+        run: |
+          sudo apt-get update
+          sudo apt-get install shunit2
+
+      - name: Run Test
+        run: |
           ./tests/test_prompt_connect_server.sh
