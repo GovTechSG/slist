@@ -58,6 +58,7 @@ exit;
 
 # Default main slist page
 main() {
+  export TERM=xterm-256color
   display_hosts
   prompt_connect_server
   last=$((num - 1))
@@ -98,7 +99,6 @@ prompt_connect_server() {
 connect_server() {
   host=$(grep "^$cs " ${list_path} | awk '{print $2}')
   printf "%s\n" "${green}Connecting to '$host' ... ${end}"
-  export TERM=screen
   ssh -F "$config_file" "$host"
 }
 
