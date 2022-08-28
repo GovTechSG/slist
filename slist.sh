@@ -58,7 +58,6 @@ exit;
 
 # Default main slist page
 main() {
-  export TERM=xterm-256color
   display_hosts
   prompt_connect_server
   last=$((num - 1))

@@ -70,4 +70,4 @@ jobs:
 
       - name: Run Test
         run: |
-          ./tests/test_prompt_connect_server.sh
+          TERM=xterm-256color ./tests/test_prompt_connect_server.sh
