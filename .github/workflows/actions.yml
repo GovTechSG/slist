@@ -42,13 +42,8 @@ jobs:
         with:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
-
-      - name: Install shunit2
         run: |
           sudo apt-get update
           sudo apt-get install shunit2
-
-      - name: Run Tests
-        run: |
           ./tests/test_init.sh
           ./tests/test_prompt_connect_server.sh
