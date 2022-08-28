@@ -10,6 +10,8 @@ oneTimeSetUp() {
   touch ~/.ssh/config
 
   touch test_config_file
+
+  TERM=screen
 }
 
 test_prompt_connect_server() {
