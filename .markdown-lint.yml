@@ -1,9 +1,6 @@
-{
-  "MD033": {
+"MD033":
     "allowed_elements": [
       "div",
       "img",
       "br"
     ]
-  }
-}
