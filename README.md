@@ -2,7 +2,7 @@
 
 ![alt text](https://github.com/GovTechSG/slist/blob/master/slist.png?raw=true)
 
-![version](https://img.shields.io/github/release/GovTechSG/slist.svg?style=flat) [![CI](https://github.com/GovTechSG/slist/actions/workflows/actions.yml/badge.svg)](https://github.com/GovTechSG/slist/actions/workflows/actions.yml) [![GitHub Super-Linter](https://github.com/GovTechSG/slist/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
+![version](https://img.shields.io/github/release/GovTechSG/slist.svg?style=flat) [![CI](https://github.com/GovTechSG/slist/actions/workflows/actions.yml/badge.svg)](https://github.com/GovTechSG/slist/actions/workflows/actions.yml)
 
 slist is a tool to list your servers in ssh config and ssh into it.\
 This only works on Unix machines.\
