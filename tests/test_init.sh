@@ -10,12 +10,12 @@ oneTimeSetUp() {
   red=$'\e[1;31m'
   green=$'\e[0;32m'
   end=$'\e[0m'
+
+  mkdir -p ~/.ssh
+  touch ~/.ssh/config
 }
 
 test_filePath_not_provided() {
-  mkdir -p ~/.ssh
-  touch ~/.ssh/config
-
   output=$(slist --init)
   expected="${red}Please provide a file path after --init option! ${end}"
 
