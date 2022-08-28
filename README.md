@@ -1,8 +1,9 @@
+# slist
+
 <div id="logo" align="center">
     <img src="slist.png" alt="Tanuki" width="150" height="150"/>
 </div>
 
-# slist
 ![version](https://img.shields.io/github/release/GovTechSG/slist.svg?style=flat) [![CI](https://github.com/GovTechSG/slist/actions/workflows/actions.yml/badge.svg)](https://github.com/GovTechSG/slist/actions/workflows/actions.yml) [![GitHub Super-Linter](https://github.com/GovTechSG/slist/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 slist is a tool to list your servers in ssh config and ssh into it.<br/>
@@ -68,7 +69,8 @@ Usage: slist [-fhl]
 --init <file_path>              To initialize a template SSH config file
 ```
 
-# Changing colours theme for slist
+## Changing colours theme for slist
+
 To make persistent color change to slist theme. <br/>
 If you are using bash shell, add below 2 lines to .bashrc or .profile or .bash_profile. <br/>
 If you are using zsh shell, add below 2 lines to .zshrc. <br/>
