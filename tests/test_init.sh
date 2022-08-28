@@ -13,6 +13,9 @@ oneTimeSetUp() {
 }
 
 test_filePath_not_provided() {
+  mkdir -p ~/.ssh
+  touch ~/.ssh/config
+
   output=$(slist --init)
   expected="${red}Please provide a file path after --init option! ${end}"
 

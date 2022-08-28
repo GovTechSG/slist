@@ -32,23 +32,6 @@ jobs:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  debug:
-    name: Debug
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-        with:
-          # Full git history is needed to get a proper list of changed files within `super-linter`
-          fetch-depth: 0
-
-      - name: slist init
-        run: |
-          mkdir ~/.ssh
-          touch ~/.ssh/config
-          ./slist.sh --init
-
   test:
     name: Test shell scripts with shunit2
     runs-on: ubuntu-latest
