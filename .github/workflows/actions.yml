@@ -45,7 +45,7 @@ jobs:
 
       - name: slist init
         run: |
-          ./slist --init
+          ./slist.sh --init
 
   test:
     name: Test shell scripts with shunit2
