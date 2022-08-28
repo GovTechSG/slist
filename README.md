@@ -1,14 +1,12 @@
 # slist
 
-<div id="logo" align="center">
-    <img src="slist.png" alt="Tanuki" width="150" height="150"/>
-</div>
+![alt text](https://github.com/GovTechSG/slist/blob/master/slist.png?raw=true)
 
 ![version](https://img.shields.io/github/release/GovTechSG/slist.svg?style=flat) [![CI](https://github.com/GovTechSG/slist/actions/workflows/actions.yml/badge.svg)](https://github.com/GovTechSG/slist/actions/workflows/actions.yml) [![GitHub Super-Linter](https://github.com/GovTechSG/slist/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
-slist is a tool to list your servers in ssh config and ssh into it.<br/>
-This only works on Unix machines.<br/>
-slist aims to solve the problem of users having to remember aliases or IP addresses of all their servers.<br/>
+slist is a tool to list your servers in ssh config and ssh into it.\
+This only works on Unix machines.\
+slist aims to solve the problem of users having to remember aliases or IP addresses of all their servers.\
 slist reads the aliases in the ~/.ssh/config file and list them in the terminal.
 
 ## Setting it up
@@ -71,11 +69,11 @@ Usage: slist [-fhl]
 
 ## Changing colours theme for slist
 
-To make persistent color change to slist theme. <br/>
-If you are using bash shell, add below 2 lines to .bashrc or .profile or .bash_profile. <br/>
-If you are using zsh shell, add below 2 lines to .zshrc. <br/>
+To make persistent color change to slist theme.\
+If you are using bash shell, add below 2 lines to .bashrc or .profile or .bash_profile.\
+If you are using zsh shell, add below 2 lines to .zshrc.\
 
-export color_theme1=cyan<br/>
+export color_theme1=cyan\
 export color_theme2=yellow
 
 Supported colors:
