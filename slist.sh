@@ -98,7 +98,7 @@ prompt_connect_server() {
 connect_server() {
   host=$(grep "^$cs " ${list_path} | awk '{print $2}')
   printf "%s\n" "${green}Connecting to '$host' ... ${end}"
-  ssh -F "$config_file" "$host"
+  TERM=screen ssh -F "$config_file" "$host"
 }
 
 handle_connect_server_input() {
