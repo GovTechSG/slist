@@ -30,4 +30,5 @@ oneTimeTearDown() {
 }
 
 # Load shUnit2.
+# shellcheck source=/dev/null
 . shunit2

@@ -94,4 +94,5 @@ test_invalid_overwrite_option() {
 }
 
 # Load shUnit2.
+# shellcheck source=/dev/null
 . shunit2
