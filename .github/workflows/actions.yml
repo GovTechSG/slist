@@ -45,8 +45,7 @@ jobs:
 
       - name: slist init
         run: |
-          pwd
-          ls -ltr
+          mkdir ~/.ssh
           touch ~/.ssh/config
           ./slist.sh --init
 
