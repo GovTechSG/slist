@@ -6,6 +6,9 @@ oneTimeSetUp() {
   shopt -s expand_aliases
   alias slist='$PWD/slist.sh'
 
+  mkdir -p ~/.ssh
+  touch ~/.ssh/config
+
   touch test_config_file
 }
 
@@ -25,4 +28,5 @@ oneTimeTearDown() {
 }
 
 # Load shUnit2.
+# shellcheck source=/dev/null
 . shunit2

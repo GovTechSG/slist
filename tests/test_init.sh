@@ -10,6 +10,9 @@ oneTimeSetUp() {
   red=$'\e[1;31m'
   green=$'\e[0;32m'
   end=$'\e[0m'
+
+  mkdir -p ~/.ssh
+  touch ~/.ssh/config
 }
 
 test_filePath_not_provided() {
@@ -91,4 +94,5 @@ test_invalid_overwrite_option() {
 }
 
 # Load shUnit2.
+# shellcheck source=/dev/null
 . shunit2
